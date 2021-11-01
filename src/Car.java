@@ -7,6 +7,10 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import java.awt.RenderingHints;
+/**
+* Author: ThachPham
+* Website: https://tpgamecoding.com
+*/ 
 public class Car {
 	
 	private float x = 200, y = 200;
