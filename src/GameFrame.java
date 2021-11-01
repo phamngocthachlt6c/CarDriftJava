@@ -1,7 +1,10 @@
 import javax.swing.JFrame;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-
+/**
+* Author: ThachPham
+* Website: https://tpgamecoding.com
+*/ 
 public class GameFrame extends JFrame implements KeyListener{
 	
 	private GamePanel gamePanel;
