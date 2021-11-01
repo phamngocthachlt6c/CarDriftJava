@@ -1,5 +1,9 @@
 import javax.swing.JPanel;
 import java.awt.Graphics;
+/**
+* Author: ThachPham
+* Website: https://tpgamecoding.com
+*/ 
 public class GamePanel extends JPanel implements Runnable {
 	
 	private Thread thread;
