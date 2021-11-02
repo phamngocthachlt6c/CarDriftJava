@@ -62,11 +62,9 @@ public class Car {
 		if(inputVector.y > 2) inputVector.y = 2;
 		
 		angle += inputVector.x * 4;
-		if(angle >= 360) angle -= 360;
-		else if(angle <= -360) angle += 360;
 		
 		if(inputVector.y != 0) 
-			acelerationInput = inputVector.y;
+			acelerationInput += inputVector.y;
 		else if(acelerationInput > 0)
 			acelerationInput -= 0.03;
 		else if(acelerationInput < 0)
