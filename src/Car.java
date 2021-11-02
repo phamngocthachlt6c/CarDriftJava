@@ -13,22 +13,26 @@ import java.awt.RenderingHints;
 */ 
 public class Car {
 	
-	private float x = 200, y = 200;
+	float x = 200, y = 200;
 	private int width = 40, height = 60;
 	
-	private float angle = -90;
+	float angle = -90;
 	
-	private float acelerationInput = 0;
+	float acelerationInput = 0;
 	
 	private Vector2 vector2;
 	
 	private BufferedImage carSprite;
+	
+	private TrailRenderer trailRenderer1, trailRenderer2;
 	
 	RenderingHints rh = new RenderingHints(
             RenderingHints.KEY_TEXT_ANTIALIASING,
             RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 	
 	public Car() {
+		trailRenderer1 = new TrailRenderer(this, 20, 30);
+		trailRenderer2 = new TrailRenderer(this, 20, -30);
 		try {
 			carSprite = ImageIO.read(new File("car.png"));
 		} catch (IOException e) {
@@ -36,6 +40,8 @@ public class Car {
 	}
 	
 	public void draw(Graphics g) {
+		trailRenderer1.render(g);
+		trailRenderer2.render(g);
 		float angleToDraw = angle + 90;
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setRenderingHints(rh);
@@ -56,10 +62,11 @@ public class Car {
 	public void update() {
 		Vector2 inputVector = Vector2.zero();
 		inputVector.x = Input.getAxis("horizontal");
+//		System.out.println("input x = " + Input.getAxis("horizontal"));
 		inputVector.y = Input.getAxis("vertical");
 		
 		if(inputVector.x > 1) inputVector.x = 1;
-		if(inputVector.y > 2) inputVector.y = 2;
+		if(inputVector.x < -1) inputVector.x = -1;
 		
 		angle += inputVector.x * 4;
 		
@@ -69,13 +76,15 @@ public class Car {
 			acelerationInput -= 0.03;
 		else if(acelerationInput < 0)
 			acelerationInput += 0.03;
+		if(acelerationInput < -15) acelerationInput = -15;
 		Vector2 engineForceVector = Vector2.zero();
 		
 		engineForceVector.y = acelerationInput;
 		vector2 = engineForceVector = transformVectorByAngle(engineForceVector);
 		addForce(engineForceVector);
 		
-		
+		trailRenderer1.update();
+		trailRenderer2.update();
 	}
 	
 	public void addForce(Vector2 vector2) {
