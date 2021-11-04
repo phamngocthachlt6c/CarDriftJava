@@ -68,15 +68,27 @@ public class Car {
 		if(inputVector.x > 1) inputVector.x = 1;
 		if(inputVector.x < -1) inputVector.x = -1;
 		
+		// One is negative & one is positive
+		if(inputVector.y * acelerationInput < 0) {
+			System.out.println("brake");
+			trailRenderer1.emitting = true;
+			trailRenderer2.emitting = true;
+		} else {
+			trailRenderer1.emitting = false;
+			trailRenderer2.emitting = false;
+		}
+		
 		angle += inputVector.x * 4;
 		
 		if(inputVector.y != 0) 
 			acelerationInput += inputVector.y;
+		//car slow down to stop while force = 0
 		else if(acelerationInput > 0)
 			acelerationInput -= 0.03;
 		else if(acelerationInput < 0)
 			acelerationInput += 0.03;
 		if(acelerationInput < -15) acelerationInput = -15;
+		else if(acelerationInput > 5) acelerationInput = 5;
 		Vector2 engineForceVector = Vector2.zero();
 		
 		engineForceVector.y = acelerationInput;
@@ -95,7 +107,7 @@ public class Car {
 	private Vector2 transformVectorByAngle(Vector2 input) {
 		Vector2 vector = Vector2.zero();
 		float radian = (angle) * 3.14f / 180;
-		System.out.println(angle + ", " + radian);
+//		System.out.println(angle + ", " + radian);
 		vector.x = input.x * (float) Math.sin(radian) - input.y * (float) Math.cos(radian);
 		vector.y = input.x * (float) Math.cos(radian) - input.y * (float) Math.sin(radian);
 		return vector;

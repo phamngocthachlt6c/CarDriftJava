@@ -1,5 +1,8 @@
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.colorchooser.ColorSelectionModel;
+
 import java.awt.Graphics;
 import java.awt.Color;
 
@@ -10,6 +13,9 @@ public class TrailRenderer {
 	private Car car;
 	private float oldCarX, oldCarY;
 	private float r, angleOffset;
+	
+	public boolean emitting = true;
+	
 	public TrailRenderer(Car car, float r, float angleOffset) {
 		this.car = car;
 		oldCarX = car.x;
@@ -28,7 +34,8 @@ public class TrailRenderer {
 		Point prevPoint = points.get(0);
 		int i = 0;
 		for(Point point : points) {
-			g.setColor(alphaColors.get(i++));
+			if(!point.draw) g.setColor(alphaColors.get(0)); else g.setColor(Color.BLACK);
+//			g.setColor(alphaColors.get(i++));
 			g.drawLine((int) prevPoint.x, (int) prevPoint.y, (int) point.x, (int)point.y);
 			prevPoint = point;
 		}
@@ -46,21 +53,23 @@ public class TrailRenderer {
 	}
 	
 	public void addPoint(float x, float y) {
+		Point point;
 		if(points.size() > 100) {
-			Point point = points.get(0);
+			point = points.get(0);
 			points.remove(0);
-			points.add(point);
 			point.x = x;
 			point.y = y;
 		} else {
-
-			Point point = new Point(x, y);
-			points.add(point);
+			point = new Point(x, y);
+			
 		}
+		point.draw = emitting;
+		points.add(point);
 	}
 	
 	static class Point {
 		float x, y;
+		boolean draw = true;
 		Point(float x, float y) {
 			this.x = x;
 			this.y = y;
